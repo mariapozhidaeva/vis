@@ -1,0 +1,13 @@
+
+
+#map {
+    width: 900px;
+    height: 512px;
+    border: 1px solid black;
+}
+#wrapper {
+    width: 900px;
+}
+#location {
+    float: right;
+}

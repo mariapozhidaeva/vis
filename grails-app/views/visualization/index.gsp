@@ -8,9 +8,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenLayers OSM and Google Example</title>
 
-    <link rel="stylesheet" href="/lool/static/css/style.css" type="text/css">
-    <link rel="stylesheet" href="/lool/static/css/style2.css" type="text/css">
-    <link rel="stylesheet" href="/lool/static/css/style3.css" type="text/css">
+    <link rel="stylesheet" href="/vis/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/vis/static/css/style2.css" type="text/css">
+    <link rel="stylesheet" href="/vis/static/css/style3.css" type="text/css">
 
     <script src="${resource(dir: '/static/js/', file: 'OpenLayers.js')}" type="text/javascript"></script>
     <script src="${resource(dir: '/static/js/', file: 'osm-google3.js')}" type="text/javascript"></script>

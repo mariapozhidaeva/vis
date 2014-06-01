@@ -1,4 +1,4 @@
-package lool
+package vis
 
 import grails.transaction.Transactional
 

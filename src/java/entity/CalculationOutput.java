@@ -1,23 +1,25 @@
 package entity;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Maria on 15.04.14.
  */
-public class CalculationOutput {
+public class CalculationOutput implements Serializable {
 
-    private List<Signal> coordinates;
+    private List<Signal> signals;
 
     private String name;
     private String description;
     private int idResult;
 
-    public List<Signal> getCoordinates() {
-        return coordinates;
+    public List<Signal> getSignals() {
+        return signals;
     }
 
-    public void setCoordinates(List<Signal> coordinates) {
-        this.coordinates = coordinates;
+    public void setSignals(List<Signal> signals) {
+        this.signals = signals;
     }
 
     public String getName() {

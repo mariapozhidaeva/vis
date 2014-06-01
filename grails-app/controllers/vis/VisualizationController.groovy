@@ -1,54 +1,31 @@
-package lool
+package vis
 
 import entity.CalculationOutput
-import entity.Coordinate
-import entity.Signal
+import it.geosolutions.geoserver.rest.GeoServerRESTPublisher
 import it.geosolutions.geoserver.rest.encoder.datastore.GSShapefileDatastoreEncoder
-import org.springframework.core.io.ClassPathResource
-import util.Csv2Shape
-
-
-import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
-import it.geosolutions.geoserver.rest.GeoServerRESTReader;
-import it.geosolutions.geoserver.rest.encoder.GSLayerEncoder;
-import it.geosolutions.geoserver.rest.encoder.datastore.GSPostGISDatastoreEncoder;
-import it.geosolutions.geoserver.rest.encoder.feature.GSFeatureTypeEncoder;
-
-import it.geosolutions.geoserver.rest.manager.GeoServerRESTStoreManager;
-import org.apache.commons.httpclient.NameValuePair;
+import it.geosolutions.geoserver.rest.manager.GeoServerRESTStoreManager
+import service.IVisualizationService
+import service.impl.VisualizationService
 
 class VisualizationController {
 
     // как инъектить?
 // как получить параметры?
 
-    def index() {
+    def visualize(CalculationOutput co) {
 
-        // стаб
+        try {
+            IVisualizationService visualizationService = new VisualizationService();
+            visualizationService.visualize(co);
 
-          CalculationOutput co = new CalculationOutput();
-          List list = new ArrayList<Signal>(15);
-          Random r = new Random(System.currentTimeMillis());
-          for (int i =0; i< 500; i++){
-              // todo:: mapper
-              Signal s = new Signal(new Coordinate((float)(r.nextFloat()*100), (float)(r.nextFloat()*15f)), (float)(r.nextFloat()%1));
-              list.add(s);
-              System.out.println(s.toString());
-          }
-          co.setCoordinates(list);
-
-          try {
-              Csv2Shape.convert(co);
-
-          } catch (Exception e) {
+        } catch (Exception e) {
               e.printStackTrace();
           };
 
         // todo:: имя сгенерированн файла - уникальное
         // todo:: logger
-        long l = System.currentTimeMillis();  // локализация?
-        System.getProperty("app.name");
         // todo:: в проперти http://grails.org/doc/2.1.0/guide/conf.html#configExternalized
+
         String RESTURL = "http://localhost:9999/geoserver";
         String RESTUSER = "admin";
         String RESTPW = "geoserver";
@@ -74,7 +51,7 @@ class VisualizationController {
         System.out.println("qweqweq");
         System.out.println(l2);
 
-        render(view: "index", model: [name: l2])
+        render(view: "index", model: [name: "TEST MESSAGE"])
     }
 }
 

@@ -1,6 +1,5 @@
 package service;
 
-import com.vividsolutions.jump.feature.FeatureCollection;
 import entity.Signal;
 import org.geotools.feature.SchemaException;
 
@@ -12,5 +11,5 @@ import java.util.List;
 public interface IConverterService {
 
     // TODO::clean exception
-    FeatureCollection convert(List<Signal> signals) throws SchemaException;
+    void convert(List<Signal> signals) throws SchemaException;
 }

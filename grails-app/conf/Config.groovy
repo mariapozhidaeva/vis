@@ -2,7 +2,8 @@
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
+grails.config.locations = ["classpath:application.properties"]
+//        "classpath:${appName}-config.properties",
 //                             "classpath:${appName}-config.groovy",
 //                             "file:${userHome}/.grails/${appName}-config.properties",
 //                             "file:${userHome}/.grails/${appName}-config.groovy"]
@@ -97,6 +98,7 @@ environments {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
+
 }
 
 // log4j configuration
@@ -122,4 +124,18 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+}
+grails.resources.modules = {
+    application {
+        resource url: '/js/application.js'
+    }
+    window {
+        resource url: '/js/window.js'
+    }
+    effects {
+        resource url: '/js/effects.js'
+    }
+    prototype {
+        resource url: '/js/prototype.js'
+    }
 }

@@ -11,10 +11,10 @@ import org.geotools.geometry.jts.JTSFactoryFinder;
  */
 public class SignalMapper {
 
-    public Point transformFromPoint(Signal signal) {
+    public Point transformToPoint(Signal signal) {
         GeometryFactory factory1 = JTSFactoryFinder.getGeometryFactory(null);
-        double longitude = signal.getCoordinate().getLongitude();
-        double latitude = signal.getCoordinate().getLatitute();
+        double longitude = signal.getCoordinates().getLongitude();
+        double latitude = signal.getCoordinates().getLatitute();
         return factory1.createPoint(new Coordinate(longitude, latitude));
     }
 }

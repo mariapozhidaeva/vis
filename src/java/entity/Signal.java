@@ -6,23 +6,23 @@ import java.io.Serializable;
  * Created by Maria on 17.04.14.
  */
 public class Signal implements Serializable {
-    private Coordinate coordinate; // заменить на существ координаты
+    private Coordinates coordinates; // заменить на существ координаты
     private Float value;
 
     public Signal() {
     }
 
-    public Signal(Coordinate coordinate, Float value) {
-        this.coordinate = coordinate;
+    public Signal(Coordinates coordinates, Float value) {
+        this.coordinates = coordinates;
         this.value = value;
     }
 
-    public Coordinate getCoordinate() {
-        return coordinate;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     public Float getValue() {
@@ -36,7 +36,7 @@ public class Signal implements Serializable {
     @Override
     public String toString() {
         return "Signal{" +
-                "coordinate=" + coordinate.getLatitute()+" "+coordinate.getLongitude()+
+                "coordinates=" + coordinates.getLatitute() + " " + coordinates.getLongitude() +
                 ", value=" + value +
                 '}';
     }

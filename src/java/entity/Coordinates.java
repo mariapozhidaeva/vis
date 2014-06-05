@@ -5,15 +5,15 @@ import java.io.Serializable;
 /**
  * Created by Maria on 15.04.14.
  */
-public class Coordinate implements Serializable {
+public class Coordinates implements Serializable {
 
     private float longitude;
     private float latitute;
 
-    public Coordinate() {
+    public Coordinates() {
     }
 
-    public Coordinate(float longitude, float latitute) {
+    public Coordinates(float longitude, float latitute) {
         this.longitude = longitude;
         this.latitute = latitute;
     }

@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -18,18 +17,27 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
 
 </head>
+
 <body>
 <h1 id="title">Visualization</h1>
+
 <p id="shortdesc">
     Demonstrate use of an OSM layer and a Google layer as base layers.
 </p>
+
 <div id="tags">
     openstreetmap google light
 </div>
+
 <div id="map" class="smallmap"></div>
+
+
+${message}
+
 
 <div id="wrapper" onloadstart="getParams(${name})">
     <div id="location"></div>
+
     <div id="scale"></div>
 </div>
 
@@ -39,6 +47,16 @@
     </p>
 </div>
 
+
+<div id="ddiv">
+
+</div>
+<script>
+    setParams(${message})
+    //you initialize your javascript array here - you can use all gsp tags.
+</script>
+
+<g:link title="erere" onclick="setParams(${message})"/>
 
 </body>
 </html>

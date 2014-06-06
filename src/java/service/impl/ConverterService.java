@@ -9,6 +9,7 @@ import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.SchemaException;
 import org.opengis.feature.simple.SimpleFeatureType;
 import service.IConverterService;
+import util.NameGenerator;
 import util.mapper.SignalMapper;
 
 import java.io.FileNotFoundException;
@@ -21,20 +22,21 @@ public class ConverterService implements IConverterService {
     }
 
     @Override
-    public void convert(List<Signal> signals) throws SchemaException {  // file return&
+    public String convert(String path, List<Signal> signals) throws SchemaException {  // file return&
 
         FeatureCollection fc = convertToFeatureCollection(signals);
+
         System.out.println("fc");
         System.out.println(fc.size());
-
-        ISignalDAO signalsDAO = new FileSignalDAO("signals5");
-        signalsDAO.writeShapeFile(fc);  //todo:: отсюда пути
+        String file = NameGenerator.getUniqName();
+        ISignalDAO signalsDAO = new FileSignalDAO(path, file);
+        signalsDAO.writeShapeFile(fc);
         try {
             signalsDAO.writeZipFile();// todo или это в конвертацию?
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        return file;
     }
 
     // todo:: think about exception

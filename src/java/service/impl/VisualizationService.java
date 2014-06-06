@@ -1,82 +1,82 @@
 package service.impl;
 
+import dao.ISignalDAO;
 import entity.CalculationOutput;
 import it.geosolutions.geoserver.rest.GeoServerRESTPublisher;
 import it.geosolutions.geoserver.rest.encoder.datastore.GSShapefileDatastoreEncoder;
 import it.geosolutions.geoserver.rest.manager.GeoServerRESTStoreManager;
+import org.apache.log4j.Logger;
 import org.geotools.feature.SchemaException;
 import service.IConverterService;
 import service.IVisualizationService;
+import util.NameGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by Maria on 01.06.14.
  */
 public class VisualizationService implements IVisualizationService {
 
-// todo: transactional?
+    // todo: transactional?
 // todo:: get properties
 // todo:: put to gsp
 // todo:: logging
 // todo:: testing - ?
 // todo::инъектить?
+    static Logger logger = Logger.getLogger(VisualizationService.class);
+    public static String STORE = "pgups_store";
 
     public VisualizationService() {
+
     }
 
     @Override
-    public void visualize(CalculationOutput result) throws SchemaException, FileNotFoundException, MalformedURLException {  // todo:: exception?//new inherit
+    public void visualize(Map<String, String> properties, CalculationOutput result) throws SchemaException, FileNotFoundException, MalformedURLException {  // todo:: exception?//new inherit
 
+        String path = properties.get("geoserver.temp.storage");
         IConverterService converterService = new ConverterService();
-        converterService.convert(result.getSignals()); // file
+        String nameFile = converterService.convert(path, result.getSignals()); // file
+        // private static final log = LogFactory.getLog(this);
+        //static Logger logger = Logger.getLogger(MyApp.class);
 
         // todo:: имя сгенерированн файла - уникальное
         // todo:: logger
         // todo:: в проперти http://grails.org/doc/2.1.0/guide/conf.html#configExternalized
-        // защищенность соединения?
-        // geoserver prmission user
+        // todo::защищенность соединения?
+        // todo::geoserver prmission user
 
-        String RESTURL = "http://localhost:9999/geoserver"; //System.getProperty("geoserver.url");
-        String RESTUSER = "admin"; //System.getProperty("geoserver.user");
-        String RESTPW = "geoserver";//System.getProperty("geoserver.password");
-        System.out.println("rest" + RESTURL);
+        String RESTURL = properties.get("url");
+        String RESTUSER = properties.get("user");
+        String RESTPW = properties.get("password");
+        String ws = properties.get("ws");
+        String pathTemp = properties.get("geoserver.temp.storage");
+
         GeoServerRESTPublisher publisher = new GeoServerRESTPublisher(RESTURL, RESTUSER, RESTPW);
-        // boolean createdWS = publisher.createWorkspace("lol_ws_5"); // ok
-        //  todo:: можно shape хранить на сервере
-        GSShapefileDatastoreEncoder datastoreEncoder = new GSShapefileDatastoreEncoder("lol_store_17", new URL("file:\\data\\output.shp"));
-        // GSShapefileDatastoreEncoder datastoreEncoder = new GSShapefileDatastoreEncoder("lol_store_6", new URL("file:data/signals4.shp"));
-        // datastoreEncoder.setUrl(new URL("file:data/signals4.shp"));
-
-        System.out.println(datastoreEncoder.toString());
+        //boolean createdWS = publisher.createWorkspace("pgups_ws_3"); // ok
+        GSShapefileDatastoreEncoder datastoreEncoder = new GSShapefileDatastoreEncoder(nameFile, new URL("file:\\data\\" + nameFile + ".shp"));// + "output" + ISignalDAO.SHAPE));
+        // System.out.println(datastoreEncoder.getUrl());
         try {
-            GeoServerRESTStoreManager man = new GeoServerRESTStoreManager(new URL(RESTURL), "admin", "geoserver");
+            GeoServerRESTStoreManager man = new GeoServerRESTStoreManager(new URL(RESTURL), RESTUSER, RESTURL);
             // todo:: a если уже существует?
             System.out.println("man");
-            boolean createdStore = man.create("lol_ws_5", datastoreEncoder);
+            boolean createdStore = man.create(ws, datastoreEncoder);
             System.out.println(createdStore);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        File zipFile = new File("D:\\opt\\GeoServer 2.5\\data_dir\\data\\signals4.zip");
-        // test insert
-        //    boolean published = publisher.publishShp("lol_ws_3", "ws_store_2", "signals", zipFile, "EPSG:2000", "point_style");
-        //    boolean published = publisher.publishShp("lol_ws_5", "lol_store_10", "signals4", zipFile);//, "EPSG:4326", "point_style");
-
-
         try {
-            // File zipfile = new ClassPathResource("D:\\opt\\GeoServer 2.5\\data_dir\\data\\output2.zip").getFile();
-
             File zipFile2 = new File("D:\\output.zip");
-            File zipFile3 = new File("D:\\output.shp");
+            String nameZipFile = NameGenerator.buildFileName(new String[]{pathTemp, "\\data\\", nameFile, ISignalDAO.ZIP});
+            File zipFile = new File(nameZipFile);
 
-            boolean published = publisher.publishShp("lol_ws_5", "lol_store_17", "output", zipFile2, "EPSG:4326", "point_style");
-            //  boolean published2 = publisher.publishShp("lol_ws_5", "lol_store_12", "outpu2");
-
+            boolean published = publisher.publishShp("pgups_ws_3", nameFile, nameFile, zipFile, "EPSG:4326", "ssss");
+            System.out.println(published);
         } catch (IOException e) {
             e.printStackTrace();
         }

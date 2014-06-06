@@ -119,18 +119,9 @@ h6 {
  * Map Examples Specific
  */
 .smallmap {
-    width: 712px;
-    height: 306px;
+    width: 512px;
+    height: 256px;
     border: 1px solid #ccc;
-}
-
-.legend {
-    width: 80px;
-    height: 100px;
-    position: absolute;
-    top: 25px;
-    right: 12px;
-
 }
 
 #tags {

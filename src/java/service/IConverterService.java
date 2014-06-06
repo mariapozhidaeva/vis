@@ -10,6 +10,5 @@ import java.util.List;
  */
 public interface IConverterService {
 
-    // TODO::clean exception
-    void convert(List<Signal> signals) throws SchemaException;
+    String convert(String path, List<Signal> signals) throws SchemaException;
 }

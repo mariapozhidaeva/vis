@@ -4,6 +4,7 @@ import com.vividsolutions.jump.feature.FeatureCollection;
 import com.vividsolutions.jump.io.DriverProperties;
 import com.vividsolutions.jump.io.ShapefileWriter;
 import dao.ISignalDAO;
+import util.NameGenerator;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,53 +20,51 @@ import java.util.zip.ZipOutputStream;
 public class FileSignalDAO implements ISignalDAO {
 
     private String nameFile = "noname";
+    private String tempStoragePath = "noname";
 
-    /*todo:: сюда еще проперти*/
     public FileSignalDAO() {
     }
 
-    public FileSignalDAO(String nameFile) {
+    public FileSignalDAO(String tempStoragePath, String nameFile) {
         this.nameFile = nameFile;
+        this.tempStoragePath = tempStoragePath;
     }
 
     @Override
     public void writeShapeFile(FeatureCollection fc) {
 
         ShapefileWriter sw = new ShapefileWriter();
-        // configDriverProperties -
         DriverProperties dp = new DriverProperties();
-        configureDriverProperties(dp);
+        buildDriverProperties(dp);
         try {
             sw.write(fc, dp);
             System.out.println("shape");
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            // close?
         }
-
     }
 
     @Override
     public void writeZipFile() throws FileNotFoundException {  // todo:: куда иксепшены лучше?
-        //long l1 = System.currentTimeMillis();
+
         // если несколько? безопаснее?
         // input file
-        // stringbuilder
-        FileInputStream in = new FileInputStream("D:\\opt\\GeoServer 2.5\\data_dir\\data\\" + nameFile + ISignalDAO.SHAPE);
-        System.out.println("shape - D:\\opt\\GeoServer 2.5\\data_dir\\data\\" + nameFile + ISignalDAO.SHAPE);
-        // out put file
-        ZipOutputStream out = new ZipOutputStream(new FileOutputStream("D:\\opt\\GeoServer 2.5\\data_dir\\data\\" + nameFile + ISignalDAO.ZIP));
-        System.out.println("shape - D:\\opt\\GeoServer 2.5\\data_dir\\data\\" + nameFile + ISignalDAO.ZIP);
-        // name the file inside the zip  file
+
+        String nameShapeFile = NameGenerator.buildFileName(new String[]{tempStoragePath, "\\data\\", nameFile, ISignalDAO.SHAPE});
+        FileInputStream in = new FileInputStream(nameShapeFile);
+
+        System.out.println("shape -" + nameShapeFile);
+        String nameZipFile = NameGenerator.buildFileName(new String[]{tempStoragePath, "\\data\\", nameFile, ISignalDAO.ZIP});
+
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(nameZipFile));
+        System.out.println("shape - " + nameZipFile);
 
         try {
-            out.putNextEntry(new ZipEntry(nameFile + ISignalDAO.ZIP));
+            out.putNextEntry(new ZipEntry(nameFile + ISignalDAO.SHAPE));
             byte[] b = new byte[1024];// buffer size
             int count;
 
             while ((count = in.read(b)) > 0) {
-                //System.out.println();
                 out.write(b, 0, count);
             }
         } catch (IOException e) {
@@ -74,7 +73,7 @@ public class FileSignalDAO implements ISignalDAO {
 
             try {
                 out.flush();
-                out.close();//  if not null
+                out.close();
                 in.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -83,9 +82,10 @@ public class FileSignalDAO implements ISignalDAO {
 
     }
 
-    private void configureDriverProperties(DriverProperties driverProperties) {
-        // dp.set("DefaultValue", "\\output2.shp");
-        driverProperties.set("DefaultValue", "D:\\opt\\GeoServer 2.5\\data_dir\\data\\" + nameFile + ISignalDAO.SHAPE);  // todo: from arguments
+    private void buildDriverProperties(DriverProperties driverProperties) {
+
+        String nameShapeFile = NameGenerator.buildFileName(new String[]{tempStoragePath, "\\data\\", nameFile, ISignalDAO.SHAPE});
+        driverProperties.set("DefaultValue", nameShapeFile);
         driverProperties.set("ShapeType", "xy");
     }
 }

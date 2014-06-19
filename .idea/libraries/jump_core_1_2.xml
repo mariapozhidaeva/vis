@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jump-core-1.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../jump-1.2/lib/jump-core-1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

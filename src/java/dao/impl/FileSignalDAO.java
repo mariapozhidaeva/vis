@@ -13,10 +13,6 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-/**
- * Created by Maria on 01.06.14.
- */
-
 public class FileSignalDAO implements ISignalDAO {
 
     private String nameFile = "noname";
@@ -46,9 +42,6 @@ public class FileSignalDAO implements ISignalDAO {
 
     @Override
     public void writeZipFile() throws FileNotFoundException {  // todo:: куда иксепшены лучше?
-
-        // если несколько? безопаснее?
-        // input file
 
         String nameShapeFile = NameGenerator.buildFileName(new String[]{tempStoragePath, "\\data\\", nameFile, ISignalDAO.SHAPE});
         FileInputStream in = new FileInputStream(nameShapeFile);

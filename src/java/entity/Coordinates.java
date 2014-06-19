@@ -2,9 +2,6 @@ package entity;
 
 import java.io.Serializable;
 
-/**
- * Created by Maria on 15.04.14.
- */
 public class Coordinates implements Serializable {
 
     private float longitude;

@@ -2,9 +2,6 @@ package entity;
 
 import java.io.Serializable;
 
-/**
- * Created by Maria on 17.04.14.
- */
 public class Signal implements Serializable {
     private Coordinates coordinates; // заменить на существ координаты
     private Float value;

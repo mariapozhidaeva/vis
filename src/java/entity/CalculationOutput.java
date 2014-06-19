@@ -3,9 +3,6 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Maria on 15.04.14.
- */
 public class CalculationOutput implements Serializable {
 
     private List<Signal> signals;
